@@ -1,1 +1,25 @@
+def get_dimension(name):
+    while True:
+        try:
+            value = float(input(f"Введите {name} товара в сантиметрах: ").strip())
+            if value <= 0:
+                print("Размер должен быть положительным числом. Попробуйте снова.")
+            else:
+                return value
+        except ValueError:
+            print("Некорректный ввод. Введите числовое значение.")
 
+# Ввод размеров
+width = get_dimension("ширину")
+length = get_dimension("длину")
+height = get_dimension("высоту")
+
+# Проверка условий упаковки
+if width <= 15 and length <= 15 and height <= 15:
+    print("Коробка №1")
+elif width > 200 or length > 200 or height > 200:
+    print("Упаковка для лыж")
+elif (15 < width < 50) or (15 < length < 50) or (15 < height < 50):
+    print("Коробка №2")
+else:
+    print("Коробка №3")
