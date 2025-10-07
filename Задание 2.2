@@ -1,1 +1,10 @@
+total_sum = 0
 
+while True:
+    num = int(input("Введите число: "))
+    if num == 0:
+        # при нуле выводим сумму и завершаем цикл
+        print("Результат:", total_sum)
+        break
+    # добавляем число к сумме
+    total_sum += num
