@@ -1,1 +1,22 @@
+queries = [
+    'смотреть сериалы онлайн',
+    'новости спорта',
+    'афиша кино',
+    'курс доллара',
+    'сериалы этим летом',
+    'курс по питону',
+    'сериалы про спорт',
+]
 
+# Подсчитываем количество запросов для каждого количества слов
+counts = {}
+total_queries = len(queries)
+
+for query in queries:
+    word_count = len(query.split())
+    counts[word_count] = counts.get(word_count, 0) + 1
+
+# Выводим распределение по количеству слов
+for word_count, count in sorted(counts.items()):
+    percentage = (count / total_queries) * 100
+    print(f"Поисковых запросов, содержащих {word_count} слов(а): {percentage:.2f}%")
