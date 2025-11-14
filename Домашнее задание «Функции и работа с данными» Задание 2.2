@@ -1,1 +1,26 @@
+import pandas as pd
+csv_path = r"C:\Users\user\Desktop\Надя\панда задание 2\keywords.csv"
+df = pd.read_csv(csv_path, encoding='utf-8')
+regions = {
+"Московская область": ["Москва", "Московская обл"],
+"Ленинградская область": ["Ленинградская обл", "Ленинградская"],
+"Ростовская область": ["Ростовская обл", "Ростов"],
+"Краснодарский край": ["Кубань", "Краснодарский край"]
+}
+def get_region(keyword):
+for region, keywords in regions.items():
+for k in keywords:
+if k.lower() in keyword.lower():
+return region
+return "undefined"
+regions_list = []
 
+for _, row in df.iterrows():
+keyword = row['keyword']
+region = get_region(keyword)
+regions_list.append(region)
+df['region'] = regions_list
+output_path = r"C:\Users\user\Desktop\Надя\панда задание 2\keywords_with_region.csv"
+df.to_csv(output_path, index=False, encoding='utf-8')
+
+print("Классификация завершена. Результат сохранен в:", output_path)
