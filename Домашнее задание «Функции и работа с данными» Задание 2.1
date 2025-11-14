@@ -1,1 +1,28 @@
+import pandas as pd
+movies_path = 'movies/movies.csv'
+ratings_path = 'movies/ratings.csv'
+movies_df = pd.read_csv(movies_path)
+ratings_df = pd.read_csv(ratings_path)
+average_ratings = ratings_df.groupby('movieId')['rating'].mean().reset_index()
+def classify_rating(rating):
+if rating <= 2:
+return 'низкий рейтинг'
+elif rating <= 4:
+return 'средний рейтинг'
+elif rating >= 4.5:
+return 'высокий рейтинг'
+else:
+return 'не определено'
+average_ratings['class'] = average_ratings['rating'].apply(classify_rating)
+movies_with_ratings = pd.merge(movies_df, average_ratings[['movieId', 'class']], on='movieId', how='left')
+movies_with_ratings['class'].fillna('не определено', inplace=True)
+movies_with_ratings.to_csv('movies/movies_with_class.csv', index=False)
+
+print("Файл с классификацией сохранен: movies/movies_with_class.csv")
+
+C:\Users\user>python classify_movies.py
+Файл с классификацией сохранен.
+
+C:\Users\user>
+
 
