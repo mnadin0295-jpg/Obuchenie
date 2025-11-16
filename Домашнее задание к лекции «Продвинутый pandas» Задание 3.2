@@ -1,1 +1,22 @@
+import pandas as pd
 
+# Путь к файлу URLs.txt
+file_path = r"C:\Users\user\Desktop\Надя\панда задание 3\URLs.txt"
+
+# Чтение файла в DataFrame
+df = pd.read_csv(file_path, header=None, names=['url'])
+
+# Регулярное выражение для поиска шаблона: / + 8 цифр + -
+pattern = r"/\d{8}-"
+
+# Фильтрация URL по шаблону
+filtered_df = df[df['url'].str.contains(pattern, regex=True)]
+
+# Вывод результата (по желанию)
+print(filtered_df)
+
+# Сохранение результата в CSV файл
+output_path = r"C:\Users\user\Desktop\Надя\панда задание 3\filtered_urls.csv"
+filtered_df.to_csv(output_path, index=False)
+
+print(f"Отфильтрованные URL сохранены в {output_path}")
