@@ -1,1 +1,44 @@
+import pandas as pd
 
+# Ваши данные
+rzd = pd.DataFrame(
+    {
+        'client_id': [111, 112, 113, 114, 115],
+        'rzd_revenue': [1093, 2810, 10283, 5774, 981]
+    }
+)
+
+auto = pd.DataFrame(
+    {
+        'client_id': [113, 114, 115, 116, 117],
+        'auto_revenue': [57483, 83, 912, 4834, 98]
+    }
+)
+
+air = pd.DataFrame(
+    {
+        'client_id': [115, 116, 117, 118],
+        'air_revenue': [81, 4, 13, 173]
+    }
+)
+
+client_base = pd.DataFrame(
+    {
+        'client_id': [111, 112, 113, 114, 115, 116, 117, 118],
+        'address': ['Комсомольская 4', 'Энтузиастов 8а', 'Левобережная 1а', 'Мира 14', 'ЗЖБИиДК 1', 
+                    'Строителей 18', 'Панфиловская 33', 'Мастеркова 4']
+    }
+)
+
+# Объединение данных
+full_data = client_base \
+    .merge(rzd, on='client_id', how='left') \
+    .merge(auto, on='client_id', how='left') \
+    .merge(air, on='client_id', how='left')
+
+# Заполняем пропуски нулями
+full_data[['rzd_revenue', 'auto_revenue', 'air_revenue']] = full_data[
+    ['rzd_revenue', 'auto_revenue', 'air_revenue']
+].fillna(0)
+
+print(full_data)
