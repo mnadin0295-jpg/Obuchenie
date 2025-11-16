@@ -1,1 +1,22 @@
+import pandas as pd
 
+# Путь к файлу
+file_path = r"C:\Users\user\Desktop\Надя\панда задание 3\ratings.csv"
+
+# Чтение файла
+ratings_df = pd.read_csv(file_path)
+
+# Фильтрация пользователей, которые поставили более 100 оценок
+active_users = ratings_df.groupby('userId').size()
+users_more_than_100 = active_users[active_users > 100].index
+
+# Создаём DataFrame только для этих пользователей
+filtered_ratings = ratings_df[ratings_df['userId'].isin(users_more_than_100)]
+
+# Для каждого такого пользователя считаем разницу между максимальным и минимальным timestamp
+user_lifetime = filtered_ratings.groupby('userId')['timestamp'].agg(lambda x: x.max() - x.min())
+
+# Вычисляем среднее время жизни
+average_lifetime = user_lifetime.mean()
+
+print(f'Среднее время жизни пользователей, поставивших более 100 оценок: {average_lifetime} секунд')
