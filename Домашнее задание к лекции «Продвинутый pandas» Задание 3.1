@@ -1,1 +1,33 @@
+import pandas as pd
 
+# Путь к файлу с данными
+file_path = r"C:\Users\user\Desktop\Надя\панда задание 3\visit_log.csv"
+
+# Чтение данных с правильным разделителем
+log = pd.read_csv(file_path, sep=';')
+
+# Приведение названий столбцов к нижнему регистру
+log.columns = log.columns.str.strip().str.lower()
+
+# Определение функции для назначения source_type
+def assign_source_type(row):
+    ts = row['traffic_source'].lower()
+    region = row['region'].lower()
+
+    if ts in ['yandex', 'google']:
+        return 'organic'
+    elif ts in ['paid', 'email']:
+        if region == 'russia':
+            return 'ad'
+        else:
+            return 'other'
+    else:
+        return row['traffic_source']
+
+# Создание нового столбца
+log['source_type'] = log.apply(assign_source_type, axis=1)
+
+# Просмотр первых строк для проверки
+print(log[['traffic_source', 'region', 'source_type']].head(10))
+
+log.to_csv('visit_log_with_source_type.csv', index=False, sep=';')
