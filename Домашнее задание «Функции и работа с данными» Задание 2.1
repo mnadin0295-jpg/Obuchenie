@@ -1,24 +1,27 @@
 import pandas as pd
-movies_path = 'movies/movies.csv'
-ratings_path = 'movies/ratings.csv'
-movies_df = pd.read_csv(movies_path)
-ratings_df = pd.read_csv(ratings_path)
-average_ratings = ratings_df.groupby('movieId')['rating'].mean().reset_index()
+
+# Пути к вашим файлам
+path_movies = r'C:\Users\user\Desktop\Надя\панда задание 2\1\movies.csv'
+path_ratings = r'C:\Users\user\Desktop\Надя\панда задание 2\1\ratings.csv'
+
 def classify_rating(rating):
-if rating <= 2:
-return 'низкий рейтинг'
-elif rating <= 4:
-return 'средний рейтинг'
-elif rating >= 4.5:
-return 'высокий рейтинг'
-else:
-return 'не определено'
-average_ratings['class'] = average_ratings['rating'].apply(classify_rating)
-movies_with_ratings = pd.merge(movies_df, average_ratings[['movieId', 'class']], on='movieId', how='left')
-movies_with_ratings['class'].fillna('не определено', inplace=True)
-movies_with_ratings.to_csv('movies/movies_with_class.csv', index=False)
+    if rating <= 2:
+        return 'низкий рейтинг'
+    elif rating <= 4:
+        return 'средний рейтинг'
+    elif rating >= 4.5:
+        return 'высокий рейтинг'
+    else:
+        return 'не классифицирован'
 
-print("Файл с классификацией сохранен: movies/movies_with_class.csv")
+def main():
+    # загрузка данных
+    ratings_df = pd.read_csv(path_ratings)
+    # добавляем столбец class
+    ratings_df['class'] = ratings_df['rating'].apply(classify_rating)
+    # сохраняем результат
+    ratings_df.to_csv(r'C:\Users\user\Desktop\Надя\панда задание 2\1\rated_movies_with_class.csv', index=False)
+    print("Классификация завершена, файл сохранён.")
 
-
-
+if __name__ == '__main__':
+    main()
